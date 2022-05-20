@@ -1,5 +1,6 @@
 import requests
 import pprint
+import json
 
 ## 사용시 주의사항
 # 반드시 서버 별 올바른 header 값을 넘겨주셔야 합니다.
@@ -15,13 +16,19 @@ headers = {"secret": "Boostcamp0000"}
 # headers = {"secret": "Boostcamp0001"}
 
 ## 방법 1. 파일 업로드
-file_dict = {"file": open("example.png", "rb")}
-response = requests.post(api_url, headers=headers, files=file_dict)
-pprint.pprint(response.json())
+def upload_local_file(img_path)->json:
+    file_dict = {"file": open(img_path, "rb")}
+    response = requests.post(api_url, headers=headers, files=file_dict)
+    # pprint.pprint(response.json())
+
+    return response.json()
 
 ## 방법 2. 파일 URL 전달
-# data = {
-#     "url": "https://upload.wikimedia.org/wikipedia/commons/7/78/Tesseract_OCR_logo_%28Google%29.png"
-# }
-# response = requests.post(api_url, headers=headers, data=data)
-# pprint.pprint(response.json())
+def upload_web_file(img_path)->json:
+    data = {
+        "url": img_path 
+    }
+    response = requests.post(api_url, headers=headers, data=data)
+    # pprint.pprint(response.json())
+
+    return response.json()

@@ -1,0 +1,3 @@
+keras==2.9.0
+pykospacing @ git+https://github.com/haven-jeon/PyKoSpacing.git@d8f2b1cb9c904e5a6a181bbf6aeee44fc6e9eab1
+tensorflow==2.5.3

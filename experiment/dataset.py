@@ -1,5 +1,7 @@
 import torch
 
+'''dataset 단에서 필요한 것?'''
+# TODO: TokenDataset() : 모델에 feeding하기 좋은 형태로 데이터셋 구축
 
 class TokenDataset(torch.utils.data.Dataset):
     def __init__(self, encodings, labels):

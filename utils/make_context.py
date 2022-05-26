@@ -103,6 +103,7 @@ def get_serialization_string(api_output)->DefaultDict:
 
     serialized_text = detect_phone(serialized_text)
     serialized_text = detect_email(serialized_text)
+    serialized_text = detect_company(serialized_text)
     spacing = Spacing()
 
     for key in serialized_text.keys():
@@ -111,4 +112,5 @@ def get_serialization_string(api_output)->DefaultDict:
             spacing_text = spacing(spacing_text)        
             serialized_text[key] = spacing_text
 
+    serialized_text = remove_empty_list(serialized_text)
     return serialized_text 

@@ -4,6 +4,9 @@ import glob
 import pickle
 from pathlib import Path
 
+from imageio import save
+from utilities import save_preprocessed_data, load_preprocessed_data 
+
 from transformers import MODEL_CARD_NAME
 
 '''dataloader 단에서 필요한 것?'''
@@ -27,6 +30,7 @@ def load_file(file_path):
 
 
 def read_file(file_list):
+
     token_docs = []
     tag_docs = []
     for file_path in file_list:
@@ -48,14 +52,28 @@ def read_file(file_list):
                         if i > 0:
                             if tag[0] == "B":
                                 modi_tag = "I" + tag[1:] # 잘라진 음절에 대해서도 BIO 태크를 붙이는 과정을 거치게 됨
-                                                         # 음절 단위로 잘라지면서, 첫 글자를 제외한 부분은 I-** 형태로 들어감.
+                                                        # 음절 단위로 잘라지면서, 첫 글자를 제외한 부분은 I-** 형태로 들어감.
                         tags.append(modi_tag)
                 except:
                     print(line)
             token_docs.append(tokens)
             tag_docs.append(tags)
     
+    save_preprocessed_data((token_docs, tag_docs))
+    
     return token_docs, tag_docs
+
+
+def load_data(file_path):
+
+    if os.path.isfile(f'token.pkl') and os.path.isfile(f'tag.pkl'):
+        return load_preprocessed_data()
+    # txt 파일(개체명 인식 데이터)들을 불러오기
+    file_list = load_file(file_path)
+    # 파일 내용을 형태소 => 음절 단위로 읽어주기(text, tag 둘 다).
+    texts, tags = read_file(file_list)
+
+    return texts, tags
 
 
 def ner_tokenizer(sent, max_seq_length, tokenizer, MODEL_NAME):  

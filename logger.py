@@ -11,7 +11,7 @@ def load_log_config(config_path: str = "log_config.yaml") -> Dict[str, any]:
 
 
 def get_logger():
-    logger_config = load_log_config("./log/log_config.yaml")
+    logger_config = load_log_config("log_config.yaml")
     logging.config.dictConfig(logger_config)
     logger = logging.getLogger("api_logger")
     return logger

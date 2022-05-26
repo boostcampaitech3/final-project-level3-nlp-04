@@ -4,14 +4,14 @@ import logging
 import logging.config
 
 
-def load_config(config_path: str = "config.yaml") -> Dict[str, any]:
+def load_log_config(config_path: str = "log_config.yaml") -> Dict[str, any]:
     with open(config_path, "r") as f:
         config = load(f, FullLoader)
     return config
 
 
 def get_logger():
-    logger_config = load_config("./log/config.yaml")
+    logger_config = load_log_config("log_config.yaml")
     logging.config.dictConfig(logger_config)
     logger = logging.getLogger("api_logger")
     return logger

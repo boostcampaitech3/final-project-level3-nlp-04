@@ -4,7 +4,7 @@ from pre_processing import *
 from logger import *
 
 
-def main():
+def main(img_path:str):
     logger = get_logger()
     config = load_config()
     path = config["ocr"]["path"]

@@ -3,6 +3,8 @@ model/best_model
 model/logs
 model/results
 
+**pkl
+
 
 # Created by https://www.toptal.com/developers/gitignore/api/python,jupyternotebooks
 # Edit at https://www.toptal.com/developers/gitignore?templates=python,jupyternotebooks

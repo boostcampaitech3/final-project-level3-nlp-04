@@ -1,3 +1,14 @@
+huggingface-hub==0.7.0
+idna==3.3
 keras==2.9.0
+matplotlib==3.5.2
+numpy==1.19.5
+opencv-python==4.5.5.64
+pandas==1.4.2
 pykospacing @ git+https://github.com/haven-jeon/PyKoSpacing.git@d8f2b1cb9c904e5a6a181bbf6aeee44fc6e9eab1
+scikit-learn==1.1.1
 tensorflow==2.5.3
+tokenizers==0.12.1
+torch==1.11.0
+tqdm==4.64.0
+transformers==4.19.2

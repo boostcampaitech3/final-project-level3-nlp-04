@@ -6,7 +6,7 @@ from transformers.utils import logging
 from transformers import AutoConfig, AutoTokenizer, AutoModelForTokenClassification, Trainer, TrainingArguments
 from dataloader import load_file, read_file, tokenized_sentences, get_labels
 from dataset import TokenDataset
-
+from utilities import *
 
 def train(args):
 
@@ -18,7 +18,7 @@ def train(args):
     # 음절 단위로 전처리 했을 때의 unique_tags와 tag와 id mapping
     unique_tags = set(tag for doc in tags for tag in doc)
     tag2id = {tag: id for id, tag in enumerate(unique_tags)}
-    id2tag = {id: tag for tag, id in tag2id.items()}
+    save_tag2id(tag2id)
 
     MODEL_NAME = args.model
     device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
@@ -49,12 +49,19 @@ def train(args):
     # training option
     training_args = TrainingArguments(
         output_dir=args.save_dir,  # output directory
+        overwrite_output_dir=True,
         num_train_epochs=args.epochs,  # total number of training epochs
         per_device_train_batch_size=args.batch,  # batch size per device during training
         per_device_eval_batch_size=args.batch_valid,  # batch size for evaluation
         logging_dir="./logs",  # directory for storing logs
+        logging_strategy="steps",
         logging_steps=args.logging_steps,
         learning_rate=args.lr,
+        evaluation_strategy="steps",
+        save_strategy="steps",
+        save_steps=200,
+        eval_steps=200,
+        load_best_model_at_end=True,
         save_total_limit=5,
     )
 
@@ -68,8 +75,7 @@ def train(args):
 
     trainer.train()
     path = os.path.join("./best_model", args.experiment_name)
-    model.save_pretrained(path)
-
+    trainer.save_model(path)
 
 def main():
 
@@ -84,20 +90,20 @@ def main():
                         help='model save dir path (default : ./results)')
     parser.add_argument('--data_path', type=str, default='/opt/ml/NER',
                         help='data path (default: /opt/ml/NER')
-    parser.add_argument('--experiment_name', type=str, default= 'roberta_epoch1',
+    parser.add_argument('--experiment_name', type=str, default= 'bert_final_roberta',
                         help='experiment name (default: test)')
 
     """hyperparameter"""
-    parser.add_argument("--epochs", type=int, default=1,
+    parser.add_argument("--epochs", type=int, default=5,
                         help="number of epochs to train (default: 5)")
-    parser.add_argument('--lr', type=float, default=5e-5,
+    parser.add_argument('--lr', type=float, default=3e-5,
                         help='learning rate (default: 5e-5)')
-    parser.add_argument('--batch', type=int, default=16,
+    parser.add_argument('--batch', type=int, default=32,
                         help='input batch size for training (default: 16)')
-    parser.add_argument('--batch_valid', type=int, default=16,
+    parser.add_argument('--batch_valid', type=int, default=64,
                         help='input batch size for validing (default: 16)')
     parser.add_argument('--logging_steps', type=int,
-                        default=100, help='logging_steps (default: 100)')
+                        default=200, help='logging_steps (default: 200)')
 
     args = parser.parse_args()
 

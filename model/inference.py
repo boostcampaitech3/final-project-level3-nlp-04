@@ -4,20 +4,13 @@ import argparse
 import numpy as np
 from sklearn.model_selection import train_test_split
 from transformers import AutoTokenizer, AutoModelForTokenClassification
-from dataloader import load_file, read_file, ner_tokenizer
+from dataloader import ner_tokenizer
+from utilities import *
 
 
 def inference(args, text):  # 학습된 모델을 가지고 추론을 진행해보자.
 
-    # txt 파일(개체명 인식 데이터)들을 불러오기
-    file_list = load_file(args.data_path)
-    # 파일 내용을 형태소 => 음절 단위로 읽어주기(text, tag 둘 다).
-    texts, tags = read_file(file_list)
-
-    # 음절 단위로 전처리 했을 때의 unique_tags와 tag와 id mapping
-    unique_tags = set(tag for doc in tags for tag in doc)
-    tag2id = {tag: id for id, tag in enumerate(unique_tags)}
-    id2tag = {id: tag for tag, id in tag2id.items()}
+    tag2id = load_tag2id()
     
     device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
     # load tokenizer
@@ -87,13 +80,13 @@ def main():
     parser.add_argument("--model", type=str, default="klue/roberta-large")
     parser.add_argument('--data_path', type=str, default='/opt/ml/NER')
     parser.add_argument('--model_dir', type=str, default="./best_model")
-    parser.add_argument('--model_name', type=str, default="roberta_epoch1")
+    parser.add_argument('--model_name', type=str, default="bert_final_roberta")
 
     args = parser.parse_args()
 
     print(args)
     
-    text = "로스트아크는 스마일게이트 RPG가 개발한 쿼터뷰 액션 MMORPG 게임이다."
+    text = "경일로지스텍 주 경기도 평택시 중리길 14 TEL. 대표 나 경 록"
     inference(args, text)
 
 

@@ -21,7 +21,9 @@ def main():
         img_degree, mid_point_x, mid_point_y = find_degree_and_point(pre_ocr_output)
 
         # 3. rotate_image : 파악한 정보를 통해 이미지를 알맞게 회전시킨다.
-        rotate_img = rotate_image(str(config["ocr"]["path"]), img_degree, mid_point_x, mid_point_y)
+        rotate_img = rotate_image(
+            str(config["ocr"]["path"]), img_degree, mid_point_x, mid_point_y
+        )
 
         # 4. crop_image : 이미지에서 명함만 인식하여 crop한다.
         preprocessed_img = crop_image(rotate_img)
@@ -33,18 +35,18 @@ def main():
     with timer("after preprocessing api", logger):
         res = call_ocr_api(config=config, custom_path=bin_img)
     res = sectorization(res)
-    email, phone, company = get_valid_info(res)
+    email, phone = get_valid_info(res)
     # res = post_processing_2(res)
-    
+
     """
     TODO : tagging
 
     """
     print(f"EMAIL : {email}")
     print(f"PHONE : {phone}")
-    print(f"COMPANY : {company}")
 
-    return res
+    return (email, phone)
 
-if __name__=="__main__":
+
+if __name__ == "__main__":
     main()

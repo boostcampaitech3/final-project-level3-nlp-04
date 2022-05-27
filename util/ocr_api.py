@@ -9,6 +9,7 @@ from contextlib import contextmanager
 import time
 import logging
 
+
 @contextmanager
 def timer(name: str, logger: logging.Logger):
     t0 = time.time()
@@ -37,7 +38,9 @@ class ImagePath(BaseModel):
             raise ValueError("Invalid path type")
 
 
-def load_config(config_path: str = "/opt/ml/final/yaml/config.yaml") -> Dict[str, any]:
+def load_config(
+    config_path: str = "/opt/ml/final-project-level3-nlp-04/yaml/config.yaml",
+) -> Dict[str, any]:
     with open(config_path, "r") as f:
         config = load(f, FullLoader)
 
@@ -49,7 +52,7 @@ def get_img_path(path: str) -> ImagePath:
     return ImagePath(path=path)
 
 
-def call_ocr_api(config:Dict[str, any], custom_path: bytes=None) -> json:
+def call_ocr_api(config: Dict[str, any], custom_path: bytes = None) -> json:
     img_path = get_img_path(config["ocr"]["path"])
     if custom_path:
         img_path = custom_path

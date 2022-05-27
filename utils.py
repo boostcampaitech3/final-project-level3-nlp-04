@@ -4,6 +4,16 @@ from pydantic import BaseModel, FilePath, validator, HttpUrl
 from typing import Union, Dict
 import requests
 from yaml import load, FullLoader
+from contextlib import contextmanager
+import time
+import logging
+
+
+@contextmanager
+def timer(name: str, logger: logging.Logger):
+    t0 = time.time()
+    yield
+    logger.info(f"{name} done in {time.time() - t0:.3f} s")
 
 
 class ImagePath(BaseModel):
@@ -41,13 +51,14 @@ def OCR_api(img_path: Union[ImagePath, bytes]) -> json:
     config = load_config()
     api_url = config["ocr"]["api_url"]
     headers = config["ocr"]["headers"]
-    if isinstance(img_path.path, PosixPath):  # FilePath
-        file_dict = {"file": open(img_path.path, "rb")}
-        response = requests.post(api_url, headers=headers, files=file_dict)
+    if isinstance(img_path, ImagePath):
+        if isinstance(img_path.path, PosixPath):  # FilePath
+            file_dict = {"file": open(img_path.path, "rb")}
+            response = requests.post(api_url, headers=headers, files=file_dict)
 
-    elif isinstance(img_path.path, HttpUrl):  # Url
-        data = {"url": img_path.path}
-        response = requests.post(api_url, headers=headers, data=data)
+        elif isinstance(img_path.path, HttpUrl):  # Url
+            data = {"url": img_path.path}
+            response = requests.post(api_url, headers=headers, data=data)
 
     else:  # Bytes
         file_dict = {"file": img_path}

@@ -2,20 +2,11 @@
 import os
 import math
 import cv2
-
-def OCR_api(file_path) :
-    api_url = "http://118.222.179.32:30000/ocr/";
-    headers = {"secret": "Boostcamp0000"};
-    file_dict = {"file": open(file_path, "rb")};
-    response = requests.post(api_url, headers=headers, files=file_dict);
-    ocr_output = response.json();
-
-    return ocr_output
-
+import numpy as np
 
 # pre-OCR output을 기반으로 이미지의 기울기 및 명함의 중점을 파악하는 함수
 def find_degree_and_point(ocr_output):
-    test_list = ocr_output['ocr']['word']
+    test_list = ocr_output["ocr"]["word"]
 
     cnt = 0
     degree_sum = 0
@@ -24,18 +15,22 @@ def find_degree_and_point(ocr_output):
 
     # 회전 중심축 알아야함
     for i in range(len(test_list)):
-        start_point_1 = test_list[i]['points'][0]  # 1번 좌표(좌상)
-        end_point_1 = test_list[i]['points'][1]  # 2번 좌표(우상)
-        start_point_2 = test_list[i]['points'][3]  # 4번 좌표(좌하)
-        end_point_2 = test_list[i]['points'][2]  # 3번 좌표(우하)
+        start_point_1 = test_list[i]["points"][0]  # 1번 좌표(좌상)
+        end_point_1 = test_list[i]["points"][1]  # 2번 좌표(우상)
+        start_point_2 = test_list[i]["points"][3]  # 4번 좌표(좌하)
+        end_point_2 = test_list[i]["points"][2]  # 3번 좌표(우하)
 
         # 각도 1 계산
-        tangent_theta_1 = (end_point_1[1] - start_point_1[1]) / (end_point_1[0] - start_point_1[0])
+        tangent_theta_1 = (end_point_1[1] - start_point_1[1]) / (
+            end_point_1[0] - start_point_1[0]
+        )
         arctangent_1 = math.atan(tangent_theta_1)
         degree_1 = math.degrees(arctangent_1)
 
         # 각도 2 계산
-        tangent_theta_2 = (end_point_2[1] - start_point_2[1]) / (end_point_2[0] - start_point_2[0])
+        tangent_theta_2 = (end_point_2[1] - start_point_2[1]) / (
+            end_point_2[0] - start_point_2[0]
+        )
         arctangent_2 = math.atan(tangent_theta_2)
         degree_2 = math.degrees(arctangent_2)
 
@@ -45,7 +40,7 @@ def find_degree_and_point(ocr_output):
             cnt += 1
 
             # if sum more than 10 times, check outliers
-            if (cnt >= 10):
+            if cnt >= 10:
 
                 # temp_average_degree
                 temp_average_degree = degree_sum / cnt / 2
@@ -98,6 +93,7 @@ def find_degree_and_point(ocr_output):
 
     return image_degree, middle_point_x, middle_point_y
 
+
 # 이미지를 회전시켜주는 함수
 def rotate_image(file_path, image_degree, middle_point_x, middle_point_y):
     image_BGR = cv2.imread(file_path)
@@ -131,8 +127,13 @@ def crop_image(img):
             # 작은 사각형 다지움
             if (w > 500) & (h > 500):
                 # 이미지 자르기
-                img_trim = img[pt1[1]:pt2[1], pt1[0]:pt2[0]]
+                img_trim = img[pt1[1] : pt2[1], pt1[0] : pt2[0]]
                 # plt.figure(figsize = (30,20))
                 # plt.imshow(img_trim)
                 # plt.show()
                 return img_trim
+
+
+def img_to_binary(img: np.ndarray) -> bytes:
+    return cv2.imencode(".PNG", img)[1].tobytes()
+

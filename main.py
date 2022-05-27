@@ -4,7 +4,7 @@ from util.logger import *
 from util.ocr_api import *
 
 
-def main():
+def main(img_path:str):
     logger = get_logger()
     config = load_config()
 

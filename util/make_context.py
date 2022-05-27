@@ -5,6 +5,8 @@ from typing import DefaultDict, Tuple, List
 from preprocess_info import *
 from pykospacing import Spacing
 
+
+
 def is_box_overlap(origin:List[Tuple[float, float]],target:List[Tuple[float, float]])->bool:
     x_list = []
     y_list = []
@@ -85,6 +87,7 @@ def sector_bfs(box_list:List)->List:
     return sector_list
 
 def get_serialization_string(api_output)->DefaultDict:
+
     data_dict = coordinate_sort_with_sector(api_output)
     box_list, text_list = get_box_info(data_dict)
     sector_list = sector_bfs(box_list)

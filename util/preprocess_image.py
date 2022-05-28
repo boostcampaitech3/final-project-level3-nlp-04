@@ -1,5 +1,3 @@
-# from utils import ImagePath
-import os
 import math
 import cv2
 import numpy as np
@@ -95,8 +93,9 @@ def find_degree_and_point(ocr_output):
 
 
 # 이미지를 회전시켜주는 함수
-def rotate_image(file_path, image_degree, middle_point_x, middle_point_y):
-    image_BGR = cv2.imread(file_path)
+def rotate_image(img_byte, image_degree, middle_point_x, middle_point_y):
+    encoded = np.fromstring(img_byte, dtype = np.uint8)
+    image_BGR = cv2.imdecode(encoded, cv2.IMREAD_COLOR)
     image_RGB = cv2.cvtColor(image_BGR, cv2.COLOR_BGR2RGB)
     img_len, img_wid, channel = image_BGR.shape
 

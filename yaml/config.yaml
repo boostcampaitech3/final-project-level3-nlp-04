@@ -1,5 +1,4 @@
 env: dev
 ocr:
   api_url: http://118.222.179.32:30001/ocr/
-  headers: {"secret": "Boostcamp0001"}
-  path: /opt/ml/final/data/test_image/test_image_raw/raw_image_1.jpg 
+  headers: { "secret": "Boostcamp0001" }

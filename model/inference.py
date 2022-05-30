@@ -1,4 +1,6 @@
 import os
+import sys
+sys.path.append("./model")
 import torch
 import argparse
 import numpy as np
@@ -6,6 +8,7 @@ from sklearn.model_selection import train_test_split
 from transformers import AutoTokenizer, AutoModelForTokenClassification
 from dataloader import ner_tokenizer
 from utilities import *
+from extract_info import *
 
 
 def inference(args, text):  # 학습된 모델을 가지고 추론을 진행해보자.
@@ -67,28 +70,34 @@ def inference(args, text):  # 학습된 모델을 가지고 추론을 진행해�
 
     print("{}\t{}".format("TOKEN", "TAG"))
     print("===========")
-  
+    
+    texts = []
+    tags = []
     for i, tag in enumerate(pred_tags):
+        texts.append(tokenizer.convert_ids_to_tokens(tokenized_sent["input_ids"][i]))
+        tags.append(tag)
         print("{:^5}\t{:^5}".format(tokenizer.convert_ids_to_tokens(tokenized_sent["input_ids"][i]), tag,))
 
+    return texts, tags
 
-def main():
+
+def inf_main(text):
 
     parser = argparse.ArgumentParser()
     
     '''path, model option & dir'''
     parser.add_argument("--model", type=str, default="klue/roberta-large")
     parser.add_argument('--data_path', type=str, default='/opt/ml/NER')
-    parser.add_argument('--model_dir', type=str, default="./best_model")
+    parser.add_argument('--model_dir', type=str, default="./model/best_model")
     parser.add_argument('--model_name', type=str, default="bert_final_roberta")
 
     args = parser.parse_args()
 
     print(args)
     
-    text = "경일로지스텍 주 경기도 평택시 중리길 14 TEL. 대표 나 경 록"
-    inference(args, text)
-
-
+    # text = "차투차 CHATOCHA 금융부분이사 본사 경기도 수원시 권선구 세화로 44 (평동) 박원주 수원지점 경기도 수원시 권선구 권선로 308-5 도이치월드 219호"
+    texts, tags = inference(args, text)
+    return extract_info(texts, tags)
+    
 if __name__ == '__main__':
-    main()
+    inf_main()

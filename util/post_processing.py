@@ -13,7 +13,10 @@ def get_valid_info(response : DefaultDict)->Tuple[str, str]:  # 필요하면 추
     email = response["email"]
     phone = response["phone"]
 
-    return email, phone
+    del response["email"]
+    del response["phone"]
+
+    return email, phone, response
 
 
 def post_processing_2():  # 필요하면 추가

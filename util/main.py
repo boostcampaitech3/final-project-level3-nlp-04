@@ -4,6 +4,7 @@ from logger import *
 from ocr_api import *
 from post_processing import *
 from preprocess_image import *
+from model.inference import inf_main
 
 def preprocessing_image(img_byte, ocr_output):
     img_degree, mid_point_x, mid_point_y = find_degree_and_point(ocr_output)
@@ -24,9 +25,14 @@ def preprocessing_image(img_byte, ocr_output):
 def post_processing(ocr_output):
     res = sectorization(ocr_output)
 
-    email, phone = get_valid_info(res)
-
+    email, phone, response = get_valid_info(res)
+    # print(' '.join(response.values()))
+    # print(type(' '.join(response.values())))
+    info_dict = inf_main(' '.join(response.values()))
+    
+    
+    print(info_dict)
     ret = f"""email : {email}
     phone : {phone}"""
 
-    return ret 
+    return ret

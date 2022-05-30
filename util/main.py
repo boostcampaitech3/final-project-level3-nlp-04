@@ -1,5 +1,5 @@
 import sys
-sys.path.append("./util")
+sys.path.append("util")
 from logger import *
 from ocr_api import *
 from post_processing import *
@@ -25,14 +25,11 @@ def preprocessing_image(img_byte, ocr_output):
 def post_processing(ocr_output):
     res = sectorization(ocr_output)
 
-    email, phone, response = get_valid_info(res)
-    # print(' '.join(response.values()))
-    # print(type(' '.join(response.values())))
-    info_dict = inf_main(' '.join(response.values()))
+    email, phone = get_valid_info(res)
+    dict_info = get_dict_info(res)
+    dict_info = ' '.join(dict_info.values())
     
-    
-    print(info_dict)
     ret = f"""email : {email}
     phone : {phone}"""
 
-    return ret
+    return ret, dict_info 

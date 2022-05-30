@@ -69,7 +69,7 @@ def read_file(file_list):
 #     return texts, tags
 
 
-def ner_tokenizer(sent, max_seq_length, tokenizer, MODEL_NAME):  
+def ner_tokenizer(sent, max_seq_length, tokenizer, is_bert):  
 
     pad_token_id = tokenizer.pad_token_id # 0 
     cls_token_id = tokenizer.cls_token_id # 101
@@ -107,13 +107,14 @@ def ner_tokenizer(sent, max_seq_length, tokenizer, MODEL_NAME):
 
     # token_type_ids => QA task가 아니므로 모두 같은 값으로 넣어줌
 
-    if MODEL_NAME == 'klue/roberta-large':
+    if is_bert:
         return {"input_ids":input_ids, 
-                "attention_mask":attention_mask}
-
+                "attention_mask":attention_mask,
+                "token_type_ids":token_type_ids}
+        
     return {"input_ids":input_ids, 
-            "attention_mask":attention_mask,
-            "token_type_ids":token_type_ids}
+            "attention_mask":attention_mask}
+
 
 
 def tokenized_sentences(train_texts, test_texts, tokenizer, MODEL_NAME):

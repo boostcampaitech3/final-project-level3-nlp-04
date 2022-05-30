@@ -39,12 +39,11 @@ class ImagePath(BaseModel):
 
 
 def load_config(
-    config_path: str = "/opt/ml/final-project-level3-nlp-04/yaml/config.yaml",
+    config_path: str = "./yaml/config.yaml",
 ) -> Dict[str, any]:
     with open(config_path, "r") as f:
         config = load(f, FullLoader)
 
-    print(f"Image load from {config['ocr']['path']}")
     return config
 
 
@@ -52,11 +51,9 @@ def get_img_path(path: str) -> ImagePath:
     return ImagePath(path=path)
 
 
-def call_ocr_api(config: Dict[str, any], custom_path: bytes = None) -> json:
-    img_path = get_img_path(config["ocr"]["path"])
-    if custom_path:
-        img_path = custom_path
-
+def call_ocr_api(img_byte: bytes) -> json:
+    img_path = img_byte
+    config = load_config()
     api_url = config["ocr"]["api_url"]
     headers = config["ocr"]["headers"]
 

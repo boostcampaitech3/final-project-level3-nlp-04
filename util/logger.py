@@ -5,7 +5,7 @@ import logging.config
 
 
 def load_log_config(
-    config_path: str = "/opt/ml/final-project-level3-nlp-04/yaml/log_config.yaml",
+    config_path: str = "./yaml/log_config.yaml",
 ) -> Dict[str, any]:
     with open(config_path, "r") as f:
         config = load(f, FullLoader)

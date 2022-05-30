@@ -14,9 +14,8 @@ app = FastAPI()
 def print_result(image_str:Image_str):
 
     imgdata = base64.b64decode(image_str.image_str)
-    print(main())
 
-    return "test"
+    return main(img_byte=imgdata)
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(app, host="0.0.0.0", port=30001)

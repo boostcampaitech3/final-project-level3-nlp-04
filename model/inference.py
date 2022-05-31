@@ -6,7 +6,7 @@ from dataloader import ner_tokenizer
 from utilities import *
 from extract_info import *
 
-def inference(text, model, tokenizer, device, is_bert=False):  # 학습된 모델을 가지고 추론을 진행해보자.
+def inference(text, model, tokenizer, device, finder, is_bert=False):  # 학습된 모델을 가지고 추론을 진행해보자.
 
     tag2id = load_tag2id()
     
@@ -58,7 +58,7 @@ def inference(text, model, tokenizer, device, is_bert=False):  # 학습된 모�
 
     return texts, tags
 
-def inf_main(text, model, tokenizer, device):
-    texts, tags = inference(text, model, tokenizer, device)
-    ret = extract_info(texts, tags)
+def inf_main(text, model, tokenizer, device, finder):
+    texts, tags = inference(text, model, tokenizer, device, finder)
+    ret = extract_info(texts, tags, finder)
     return ret

@@ -1,17 +1,19 @@
 from util.main import *
 
-def main(img_byte:str, model, tokenizer, device):
+def main(img_byte:str, model, tokenizer, device, finder):
     logger = get_logger()
 
     with timer("api", logger):
         res = call_ocr_api(img_byte=img_byte)
 
-    # with timer("preprocessing", logger):
         bin_img = preprocessing_image(img_byte, res)
-
-        # with timer("after preprocessing api", logger):
         res = call_ocr_api(bin_img)
+        email, phone, info_dict = preprocess_for_tagging(res)
 
-        email_phone, dict_info = post_processing(res)
+        output = inf_main(info_dict, model, tokenizer, device, finder)
 
-        return inf_main(dict_info, model, tokenizer, device)
+        output["email"] = email
+        output["phone"] = phone 
+
+        return output
+

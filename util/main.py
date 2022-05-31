@@ -22,14 +22,9 @@ def preprocessing_image(img_byte, ocr_output):
 
     return bin_img
 
-def post_processing(ocr_output):
-    res = sectorization(ocr_output)
+def preprocess_for_tagging(ocr_output):
+    email, phone, info_dict = sectorization(ocr_output)
 
-    email, phone = get_valid_info(res)
-    dict_info = get_dict_info(res)
-    dict_info = ' '.join(dict_info.values())
-    
-    ret = f"""email : {email}
-    phone : {phone}"""
+    info_dict = ' '.join(info_dict.values())
 
-    return ret, dict_info 
+    return email, phone, info_dict 

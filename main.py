@@ -13,7 +13,9 @@ def main(img_byte:str, model, tokenizer, device, finder):
         output = inf_main(info_dict, model, tokenizer, device, finder)
 
         output["email"] = email
-        output["phone"] = phone 
+        output["phone"] = phone
+
+        print(output) 
 
         return output
 

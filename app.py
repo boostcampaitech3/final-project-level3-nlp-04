@@ -29,20 +29,8 @@ def print_result(image_str:Image_str):
     imgdata = base64.b64decode(image_str.image_str)
 
     content = main(img_byte=imgdata, model=model, tokenizer=tokenizer, device=device, finder=finder)
-
     return JSONResponse(content=content)
 
 
 if __name__ == "__main__":
-    # uvicorn.run(app, host="0.0.0.0", port=30001)
-    import cv2
-    file_path = f"/opt/ml/final/data/test_image/test_image_raw/raw_image_3.jpg"
-    img = cv2.imread(file_path)
-    print("image type : ", type(img))
-
-    imgdata = cv2.imencode('.PNG', img)[1].tobytes()
-
-    content = main(img_byte=imgdata, model=model, tokenizer=tokenizer, device=device, finder=finder)
-
-    print(content)
-    
+    uvicorn.run(app, host="0.0.0.0", port=30001)

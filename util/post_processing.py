@@ -3,6 +3,7 @@ import sys
 from typing import DefaultDict, Tuple 
 sys.path.append("util")
 from make_context import *
+import pprint
 
 def sectorization(response: json):  # dict?
     info_dict = get_serialization_string(response)
@@ -10,6 +11,8 @@ def sectorization(response: json):  # dict?
     email, phone = get_valid_info(info_dict)
     info_dict = get_raw_dict_info(info_dict)
 
+
+    pprint.pprint(f"email : {email}, phone : {phone}, info_dict : {info_dict}")
     return email, phone, info_dict
 
 

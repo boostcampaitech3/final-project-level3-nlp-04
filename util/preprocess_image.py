@@ -107,7 +107,7 @@ def rotate_image(
     new_len, new_wid = int(img_len * 1.3), int(img_wid)
 
     img_rotate = cv2.getRotationMatrix2D(rotate_point, rotate_degree, 1)
-    rotate_result = cv2.warpAffine(image_RGB, img_rotate, (new_len, new_wid))
+    rotate_result = cv2.warpAffine(image_RGB, img_rotate, (new_wid, new_len))
 
     return rotate_result
 
@@ -130,12 +130,10 @@ def crop_image(img: np.ndarray) -> np.ndarray:
             if (w > 500) & (h > 500):
                 # 이미지 자르기
                 img_trim = img[pt1[1] : pt2[1], pt1[0] : pt2[0]]
-                # plt.figure(figsize = (30,20))
-                # plt.imshow(img_trim)
-                # plt.show()
                 return img_trim
 
 
 def img_to_binary(img: np.ndarray) -> bytes:
-    return cv2.imencode(".PNG", img)[1].tobytes()
+    cv2.imwrite("temp.jpg", img)
 
+    return cv2.imencode(".PNG", img)[1].tobytes()

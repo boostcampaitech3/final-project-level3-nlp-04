@@ -1,10 +1,10 @@
 import sys
-
-sys.path.append("./util")
+sys.path.append("util")
 from logger import *
 from ocr_api import *
 from post_processing import *
 from preprocess_image import *
+from model.inference import inf_main
 
 
 def preprocessing_image(img_byte:bytes, ocr_output: Dict) -> bytes:
@@ -21,14 +21,10 @@ def preprocessing_image(img_byte:bytes, ocr_output: Dict) -> bytes:
 
     return bin_img
 
+def preprocess_for_tagging(ocr_output):
+    email, phone, info_dict = sectorization(ocr_output)
 
-def post_processing(ocr_output: Dict) -> str:
-    res = sectorization(ocr_output)
+    info_dict = ' '.join(info_dict.values())
 
-    email, phone = get_valid_info(res)
-
-    ret = f"""email : {email}
-    phone : {phone}"""
-
-    return ret
+    return email, phone, info_dict 
 

@@ -15,8 +15,7 @@ def sectorization(response: json):  # dict?
     pprint.pprint(f"email : {email}, phone : {phone}, info_dict : {info_dict}")
     return email, phone, info_dict
 
-
-def get_valid_info(response : DefaultDict)->Tuple[str, str]:  # 필요하면 추가
+def get_valid_info(response: DefaultDict) -> Tuple[str, str]:  # 필요하면 추가
     email = response["email"]
     phone = response["phone"]
 

@@ -1,6 +1,7 @@
 from util.main import *
 
 def main(img_byte:str, model, tokenizer, device, finder):
+
     logger = get_logger()
 
     with timer("api", logger):

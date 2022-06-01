@@ -8,9 +8,11 @@ from transformers import AutoTokenizer, AutoModelForTokenClassification
 import torch
 from find_job_titles import FinderAcora
 
+
 class Image_str(BaseModel):
-    image_str : str
-    
+    image_str: str
+
+
 app = FastAPI()
 
 finder = FinderAcora()
@@ -24,7 +26,7 @@ model = AutoModelForTokenClassification.from_pretrained(_model_dir)
 model.to(device) 
 
 @app.post("/")
-def print_result(image_str:Image_str):
+def print_result(image_str: Image_str) -> str:
 
     imgdata = base64.b64decode(image_str.image_str)
 
@@ -35,6 +37,7 @@ def print_result(image_str:Image_str):
 @app.post("/static")
 def image_upload():
     return FileResponse("temp.jpg")
+
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=30001)

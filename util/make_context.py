@@ -86,7 +86,7 @@ def sector_bfs(box_list:List)->List:
     
     return sector_list
 
-def get_serialization_string(api_output)->DefaultDict:
+def get_serialization_string(api_output:Dict)->DefaultDict:
 
     data_dict = coordinate_sort_with_sector(api_output)
     box_list, text_list = get_box_info(data_dict)

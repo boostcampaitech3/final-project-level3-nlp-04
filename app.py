@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, FileResponse
 import uvicorn
 from main import main
 import base64
@@ -29,8 +29,12 @@ def print_result(image_str:Image_str):
     imgdata = base64.b64decode(image_str.image_str)
 
     content = main(img_byte=imgdata, model=model, tokenizer=tokenizer, device=device, finder=finder)
+
     return JSONResponse(content=content)
 
+@app.post("/static")
+def image_upload():
+    return FileResponse("temp.jpg")
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=30001)

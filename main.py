@@ -15,7 +15,5 @@ def main(img_byte:str, model, tokenizer, device, finder):
         output["email"] = email
         output["phone"] = phone
 
-        print(output) 
-
         return output
 

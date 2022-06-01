@@ -32,13 +32,13 @@ def get_translate(text,lan1, lan2, num):
     else:
         return rescode
                       
-def find_job(sentence) :
+def find_job(sentence, finder) :
     # global eng_split_list
     
     # 기본적인 Rule-Base 병행
     job_list = ['매니저', '회장', '사장','전무','상무','이사','부장','차장','과장','계장','대리','주임','사원',
-                '인턴','본부장','지점장','행장','부행장','실장','수습사원','선임','책임','수석','반장','공장장']
-    
+                '인턴','본부장','지점장','행장','부행장','실장','수습사원','선임','책임','수석','반장','공장장', '대표']
+   
     # 텍스트 전처리
     processed_sentence = re.sub('[ ]', '/', sentence)
     
@@ -137,11 +137,11 @@ def extract_info(texts, tags, finder):
     # 중복 공백 제거
     other_text = re.sub(' +','/',other_text)
     
-    job_name = find_job(other_text)
+    job_name = find_job(other_text, finder)
     
-    info_dict['PER'].append(per_name[1:])
-    info_dict['LOC'].append(loc_name[1:])
-    info_dict['ORG'].append(org_name)
+    info_dict['PER'].append(per_name.strip())
+    info_dict['LOC'].append(loc_name.strip())
+    info_dict['ORG'].append(org_name.strip())
     info_dict['JOB'].append(job_name)
     
     return info_dict

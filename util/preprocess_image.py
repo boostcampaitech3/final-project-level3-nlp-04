@@ -1,9 +1,10 @@
 import math
 import cv2
 import numpy as np
+from typing import Tuple
 
 # pre-OCR output을 기반으로 이미지의 기울기 및 명함의 중점을 파악하는 함수
-def find_degree_and_point(ocr_output):
+def find_degree_and_point(ocr_output: Dict) -> Tuple(float, int, int):
     test_list = ocr_output["ocr"]["word"]
 
     cnt = 0
@@ -93,8 +94,10 @@ def find_degree_and_point(ocr_output):
 
 
 # 이미지를 회전시켜주는 함수
-def rotate_image(img_byte, image_degree, middle_point_x, middle_point_y):
-    encoded = np.fromstring(img_byte, dtype = np.uint8)
+def rotate_image(
+    img_byte: bytes, image_degree: float, middle_point_x: int, middle_point_y: int
+) -> np.ndarray:
+    encoded = np.fromstring(img_byte, dtype=np.uint8)
     image_BGR = cv2.imdecode(encoded, cv2.IMREAD_COLOR)
     image_RGB = cv2.cvtColor(image_BGR, cv2.COLOR_BGR2RGB)
     img_len, img_wid, channel = image_BGR.shape
@@ -110,7 +113,7 @@ def rotate_image(img_byte, image_degree, middle_point_x, middle_point_y):
 
 
 # 이미지를 잘라주는 함수
-def crop_image(img):
+def crop_image(img: np.ndarray) -> np.ndarray:
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     ret, thr = cv2.threshold(gray, 0, 255, cv2.THRESH_OTSU)
     contours, _ = cv2.findContours(thr, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)

@@ -1,6 +1,7 @@
 from util.main import *
 
-def main(img_byte:str):
+
+def main(img_byte: str) -> str:
     logger = get_logger()
 
     with timer("api", logger):
@@ -18,5 +19,4 @@ def main(img_byte:str):
     TODO : tagging
 
     """
-
 

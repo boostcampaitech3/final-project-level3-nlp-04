@@ -1,13 +1,16 @@
-from email import header
 import json
 from pathlib import PosixPath
-from pydantic import BaseModel, FilePath, validator, HttpUrl
-from typing import Union, Dict
+from pydantic import BaseModel, FilePath, Json, validator, HttpUrl
+from typing import Union, Dict, List
 import requests
 from yaml import load, FullLoader
 from contextlib import contextmanager
 import time
 import logging
+import numpy as np
+import concurrent.futures
+import cv2
+from preprocess_image import img_to_binary
 
 
 @contextmanager
@@ -38,9 +41,7 @@ class ImagePath(BaseModel):
             raise ValueError("Invalid path type")
 
 
-def load_config(
-    config_path: str = "./yaml/config.yaml",
-) -> Dict[str, any]:
+def load_config(config_path: str = "./yaml/config.yaml",) -> Dict[str, any]:
     with open(config_path, "r") as f:
         config = load(f, FullLoader)
 
@@ -71,3 +72,14 @@ def call_ocr_api(img_byte: bytes) -> json:
         response = requests.post(api_url, headers=headers, files=file_dict)
 
     return response.json()
+
+
+def multi_threading_call_ocr_api(img_list: List[np.ndarray]) -> List[Json]:
+    bin_list = list(map(img_to_binary, img_list))
+    result = []
+    with concurrent.futures.ThreadPoolExecutor(max_workers=len(bin_list)) as exe:
+        future_to_api = {exe.submit(call_ocr_api, file): file for file in bin_list}
+        for future in concurrent.futures.as_completed(future_to_api):
+            result.append(future.result())
+
+    return result

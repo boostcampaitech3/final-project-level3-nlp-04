@@ -38,6 +38,10 @@ def print_result(image_str: Image_str) -> str:
 def image_upload():
     return FileResponse("temp.jpg")
 
+@app.get("/static")
+def image_upload():
+    return FileResponse("temp.jpg")
+
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=30001)

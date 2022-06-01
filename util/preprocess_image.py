@@ -1,10 +1,10 @@
 import math
 import cv2
 import numpy as np
-from typing import Tuple
+from typing import Tuple, Dict
 
 # pre-OCR output을 기반으로 이미지의 기울기 및 명함의 중점을 파악하는 함수
-def find_degree_and_point(ocr_output: Dict) -> Tuple(float, int, int):
+def find_degree_and_point(ocr_output: Dict) -> Tuple[float, int, int]:
     test_list = ocr_output["ocr"]["word"]
 
     cnt = 0

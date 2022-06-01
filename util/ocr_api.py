@@ -74,7 +74,7 @@ def call_ocr_api(img_byte: bytes) -> json:
     return response.json()
 
 
-def multi_threading_call_ocr_api(img_list: List[np.ndarray]) -> List[Json]:
+def multi_threading_call_ocr_api(img_list: List[np.ndarray]) -> List[Dict]:
     bin_list = list(map(img_to_binary, img_list))
     result = []
     with concurrent.futures.ThreadPoolExecutor(max_workers=len(bin_list)) as exe:

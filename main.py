@@ -23,4 +23,4 @@ def main(img: str, model: str, tokenizer: str, device: str, finder) -> json:
         output["email"] = email
         output["phone"] = phone
 
-        return output
+        return get_final_output(output)

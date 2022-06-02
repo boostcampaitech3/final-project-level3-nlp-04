@@ -1,4 +1,5 @@
 import re
+from collections import OrderedDict
 from extraction.detection import detect_job
 
 def extract_info(texts, tags, finder):
@@ -57,3 +58,27 @@ def extract_info(texts, tags, finder):
     info_dict["JOB"].append(job_name)
 
     return info_dict
+
+def remove_duplicate_output(output:str):
+    ret = ""
+
+    origin = output.split()
+    for word in origin:
+        if not word in ret:
+            ret += word
+            ret += " "
+
+    return ret.strip()
+
+def get_final_output(output):
+    scan_fail = "Scan Failed"
+    new_output = OrderedDict({"이름":scan_fail, "직책":scan_fail, "회사명": scan_fail, "주소":scan_fail, "전화번호":scan_fail, "이메일":scan_fail})
+
+    new_output["회사명"]=remove_duplicate_output(output["ORG"][0]) if output["ORG"][0]!='' else scan_fail
+    new_output["주소"]=remove_duplicate_output(output["LOC"][0]) if output["LOC"][0]!='' else scan_fail
+    new_output["이름"]=remove_duplicate_output(output["PER"][0]) if output["PER"][0]!='' else scan_fail
+    new_output["직책"]=output["JOB"][0] if output["JOB"][0]!='' and output['JOB'][0] else scan_fail
+    new_output["전화번호"]=output["phone"] if output["phone"] != "" else scan_fail
+    new_output["이메일"]=output["email"] if output["email"] != "" else scan_fail
+
+    return new_output

@@ -7,6 +7,8 @@ from pydantic import BaseModel
 from transformers import AutoTokenizer, AutoModelForTokenClassification
 import torch
 from find_job_titles import FinderAcora
+from util import log_and_config
+import cv2
 
 
 class Image_str(BaseModel):
@@ -16,27 +18,32 @@ class Image_str(BaseModel):
 app = FastAPI()
 
 finder = FinderAcora()
-_tokenizer = "klue/roberta-large"
-_model_dir = "/opt/ml/final/model/best_model/bert_final_roberta"
+config = log_and_config.load_config()
+tokenizer = config["model"]["tokenizer"]
+model_dir = config["model"]["model_dir"]
+device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
-device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
+tokenizer = AutoTokenizer.from_pretrained(tokenizer)
+model = AutoModelForTokenClassification.from_pretrained(model_dir)
+model.to(device)
 
-tokenizer = AutoTokenizer.from_pretrained(_tokenizer)
-model = AutoModelForTokenClassification.from_pretrained(_model_dir)
-model.to(device) 
 
 @app.post("/")
 def print_result(image_str: Image_str) -> str:
 
     imgdata = base64.b64decode(image_str.image_str)
 
-    content = main(img_byte=imgdata, model=model, tokenizer=tokenizer, device=device, finder=finder)
+    content = main(
+        img_byte=imgdata, model=model, tokenizer=tokenizer, device=device, finder=finder
+    )
 
     return JSONResponse(content=content)
+
 
 @app.post("/static")
 def image_upload():
     return FileResponse("temp.jpg")
+
 
 @app.get("/static")
 def image_upload():
@@ -44,4 +51,9 @@ def image_upload():
 
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=30001)
+    # uvicorn.run(app, host="0.0.0.0", port=30001)
+    img = cv2.imread("/opt/ml/img/raw_image_3.jpg")
+    img = cv2.imencode(".PNG", img)[1].tobytes()
+    print(
+        main(img=img, model=model, tokenizer=tokenizer, device=device, finder=finder,)
+    )

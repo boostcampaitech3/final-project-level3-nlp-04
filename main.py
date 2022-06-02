@@ -1,8 +1,9 @@
-from preprocessing import *
 from util.log_and_config import *
 from util.ocr_api import *
-from tagging import *
 from model.inference import *
+from union.image import *
+from union.text import *
+from extraction.valid_info import *
 
 
 def main(img: str, model: str, tokenizer: str, device: str, finder) -> json:
@@ -21,9 +22,5 @@ def main(img: str, model: str, tokenizer: str, device: str, finder) -> json:
 
         output["email"] = email
         output["phone"] = phone
-
-        # logger.info( # encoding issue
-        #     f"email : {output['email']}, phone : {output['phone']}, LOC : {output['LOC']}, name : {output['PER']}, ORG : {output['ORG']}, JOB : {output['JOB']}"
-        # )
 
         return output

@@ -5,8 +5,10 @@ from typing import Union, Dict, List
 import requests
 import numpy as np
 import concurrent.futures
-from util.image_processing import img_to_binary
-from util.log_and_config import load_config
+import sys
+sys.path.append("../")
+from preprocess.image import img_to_binary
+from util.log_and_config import *
 
 
 class ImagePath(BaseModel):

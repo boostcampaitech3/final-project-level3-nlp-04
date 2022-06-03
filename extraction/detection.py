@@ -66,66 +66,26 @@ def detect_email(serialized: DefaultDict) -> DefaultDict:
 
     return serialized
 
-
 def detect_job(sentence, finder):
-    # global eng_split_list
-
     # 기본적인 Rule-Base 병행
-    job_list = [
-        "매니저",
-        "회장",
-        "사장",
-        "전무",
-        "상무",
-        "이사",
-        "부장",
-        "차장",
-        "과장",
-        "계장",
-        "대리",
-        "주임",
-        "사원",
-        "인턴",
-        "본부장",
-        "지점장",
-        "행장",
-        "부행장",
-        "실장",
-        "수습사원",
-        "선임",
-        "책임",
-        "수석",
-        "반장",
-        "공장장",
-        "대표",
-    ]
-
+    job_list = ["매니저","매니져","회장","사장","전무","상무","이사","부장","차장","과장","계장","대리","주임","사원","인턴",
+                "본부장","지점장","행장","부행장","실장","수습사원","선임","책임","수석","반장","공장장","대표",]
+    
     # 텍스트 전처리
+    sentence = re.sub("[-=+,#/\?:^$.@*\"※~&%ㆍ!』\\'|\(\)\[\]\<\>`\'…》]",' ', sentence)
     processed_sentence = re.sub("[ ]", "/", sentence)
 
     # 한국어 문장 쪼개기
     kor_split_list = processed_sentence.split("/")
-
+    # print(kor_split_list)
+    
     flag = 0
-    eng_split_list = []
+    eng_split_list = []  
+    
+    
+    for text_idx, text in enumerate(kor_split_list):
 
-    # 구글 영어 번역 & 문장 쪼개기, 서버 여러개 중 하나 쓰기
-    for num in range(9, -1, -1):
-        if flag == 1:
-            continue
-
-        eng_sentence = get_translate(sentence, "ko", "en", num)
-
-        if eng_sentence != 429:
-            eng_split_list = eng_sentence.split("/")
-            flag = 1
-
-    ans_idx = int()
-    flag = 0
-
-    for text_idx, text in enumerate(eng_split_list):
-
-        # 먼저 job_list에서 서치
+        # Rule-Base 탐색(job_list)
         for job_title in job_list:
             # flag가 1이면 이후 수행 x
             if flag == 1:
@@ -136,14 +96,39 @@ def detect_job(sentence, finder):
                 flag = 1
                 ans_idx = text_idx
 
-        if flag == 1:
-            return kor_split_list[ans_idx]
+    if flag == 1:
+        return kor_split_list[ans_idx]
 
-        # job_list에서 존재하지 않는다면 finder 사용
-        else:
+    # job_list에서 존재하지 않는다면 finder 사용
+    else:
+        # 구글 영어 번역 & 문장 쪼개기, 서버 여러개 중 하나 쓰기
+        for num in range(9, -1, -1):
+            if flag == 1:
+                continue
+
+            eng_sentence = get_translate(processed_sentence, "ko", "en", num)
+            if eng_sentence != 429:
+                eng_split_list = eng_sentence.split("/")
+                flag = 1
+        
+        ans_idx = int()
+        flag = 0
+        
+        for idx, text in enumerate(eng_split_list) : 
+            
+            if flag == 1 : 
+                break
+            input_text = text.strip()            
             try:
-                output = finder.findall(text)
-                ans_idx = text_idx
-                return kor_split_list[ans_idx]
+                output = finder.findall(input_text)
+                ans_idx = idx
+                flag = 1
             except:
                 continue
+
+        if flag == 1 :
+            return kor_split_list[ans_idx]
+        
+        else :
+            false_text = '직책이 인식되지 않습니다.'
+            return false_text

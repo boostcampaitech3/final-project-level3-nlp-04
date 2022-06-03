@@ -13,7 +13,10 @@ def preprocessing_image(img: bytes, ocr_output: Dict) -> bytes:
     rotate_img = rotate_image(img, img_degree, mid_point_x, mid_point_y)
 
     # 3. crop_image : 이미지에서 명함만 인식하여 crop한다.
-    preprocessed_img = crop_image(rotate_img)
+    try:
+        preprocessed_img = crop_image(rotate_img)
+    except:
+        preprocessed_img = rotate_image
 
     # 4. type to binary : bytes 형태로 변환
     bin_img = img_to_binary(preprocessed_img)

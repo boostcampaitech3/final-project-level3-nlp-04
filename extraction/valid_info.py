@@ -9,6 +9,7 @@ def extract_info(texts, tags, finder):
     per_name = ""
     loc_name = ""
     org_name = ""
+    has_number = lambda x: any(elem.isdigit() for elem in x)
 
     for idx, text in enumerate(texts):
 
@@ -34,7 +35,8 @@ def extract_info(texts, tags, finder):
                     loc_name += processed_text
 
             elif tags[idx][2:] == "ORG":
-
+                if has_number(processed_text):
+                    continue
                 if tags[idx][0] == "B":
                     org_name += " " + processed_text
                 else:

@@ -7,14 +7,16 @@ text cleaning을 위한 함수 Module
 
 
 def cleaning_special_token(text: str) -> str:
-    special = ["#", "$", "%", "&", "*", "(", ")", ":", "-", "<", ">", "|"]
+    text = text.lower()
+    special = ["#", "$", "%", "&", "*", "(", ")", ":", "-", "<", ">", "|", "tel", "fax", "mobile", "email", "e-mail"]
 
     for token in special:
         text = text.replace(token, "")
 
+    text = text.replace("+82", "0")
     text = text.replace("+82 ", "0")
 
-    return text.lower()
+    return text
 
 
 def remove_duplicate(serialized: DefaultDict, target_list: List[int]):
@@ -41,7 +43,7 @@ def cleaning_domain(text: str) -> str:
     text = text.replace(".", "").strip()
 
     for domain in domains:
-        if text == domain:
+        if text in domain:
             return f".{domain}"
 
     return text

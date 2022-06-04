@@ -210,7 +210,7 @@ def get_serialization_string(api_output: Dict) -> DefaultDict:
     for key in serialized_text.keys():
         if type(key) != str:
             spacing_text = "".join(serialized_text[key])
-            spacing_text = re.sub(" ", "", spacing_text)
+            spacing_text = spacing_text.replace(" ", "") 
             spacing_text = spacing_text.upper()
             spacing_text = spacing(spacing_text)
             serialized_text[key] = spacing_text

@@ -20,7 +20,10 @@ OCR로 값을 거치는 것이기 때문에 모델이 예측한 답이 불완전
 
 def cer(ref: str, hyp: str) -> Tuple[int, int, int]:
     hyp = hyp.replace(' ', '')
+    ref = ref.replace(' ', '')
     ref = cleaning_special_token(ref)
+    hyp = cleaning_special_token(hyp)
+    pprint.pprint(f"TRUE : {ref} / PRED : {hyp}")
 
     dist = Lev.distance(hyp, ref)
     length = len(ref)
@@ -37,7 +40,6 @@ def calculate_metric(y_true: Dict[str, str], y_pred: Dict[str, str], threshold: 
     y_pred_bin = []
 
     for ref, hyp in zip(y_true_value, y_pred_value):
-        pprint.pprint(f"TRUE : {ref} / PRED : {hyp}")
         if cer(ref, hyp)[2] <= threshold:
             if hyp == "Scan Failed":
                y_pred_bin.append(0) 

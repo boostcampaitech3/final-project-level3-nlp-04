@@ -30,7 +30,7 @@ def detect_phone(serialized: DefaultDict) -> DefaultDict:
                 stack.clear()
 
     serialized = remove_duplicate(serialized, phone_list)
-    phone_list = list(filter(lambda x: x.startswith("010"), phone_list))
+    phone_list = list(filter(lambda x: x.startswith("010") or x.startswith("011"), phone_list))
     serialized["phone"].extend(phone_list)
 
     return serialized
@@ -43,6 +43,9 @@ def detect_email(serialized: DefaultDict) -> DefaultDict:
 
     for val in itertools.chain.from_iterable(serialized.values()):
         if p.match(val):
+            if val.endswith('co'):
+                stack.append(val)
+                continue
             email_list.append(val)
             break
 
@@ -58,6 +61,8 @@ def detect_email(serialized: DefaultDict) -> DefaultDict:
             stack.append(temp + val)
 
         if p.match(stack[-1]):
+            if stack[-1].endswith('co'):
+                continue
             email_list.append(stack[-1])
             break
 
@@ -130,5 +135,5 @@ def detect_job(sentence, finder):
             return kor_split_list[ans_idx]
         
         else :
-            false_text = '직책이 인식되지 않습니다.'
+            false_text = ''
             return false_text

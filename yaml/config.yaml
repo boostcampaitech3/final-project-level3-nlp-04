@@ -4,7 +4,8 @@ ocr:
   headers: { "secret": "Boostcamp0001" }
 model:
   tokenizer: klue/roberta-large
-  model_dir: /opt/ml/final-project-level3-nlp-04/model/best_model/bert_final_roberta
+  model_dir: /opt/ml/final/model/best_model/bert_final_roberta
 naver_api:
   id: ['jsTjNqkZfI7vfZhyx3BZ', 'onbDQLsfFQJnUANZVKpM', '1_HmWOIMkrY_QfNOYWQl','PZFMK_CGszrBZDgP5pSd', 'PvbiQ8pMeOk8q4sRCJA0', '3rCf3GEd3fvtEV6Vvh2w', 'fn7xQVUTJv8aot7uTQro', 'pHwYN8y2A6Y03gt9IfT3','WdLufJEZi2lPAEfvKL15','NxyyDoXdqruDuAHJBR5u']
   pw: ['GGxUC1wMbj','PSRQa_fh9F','7iAPCQdOH9','uOLwEF3UOt', 'wVoIpNeGns', '29491wg_uX', 'bOwpDCZhUz','8SMSp4oIWV','HW47_dHuQg','9DA9gXJAAG']
+  url: https://openapi.naver.com/v1/papago/n2mt

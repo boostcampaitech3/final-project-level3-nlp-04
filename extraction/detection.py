@@ -42,10 +42,7 @@ def detect_email(serialized: DefaultDict) -> DefaultDict:
     p = re.compile("^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$")
 
     for val in itertools.chain.from_iterable(serialized.values()):
-        if p.match(val):
-            if val.endswith('co'):
-                stack.append(val)
-                continue
+        if p.match(val) and not val.endswith('co'):
             email_list.append(val)
             break
 

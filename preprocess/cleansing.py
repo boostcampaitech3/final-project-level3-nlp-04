@@ -43,7 +43,7 @@ def cleaning_domain(text: str) -> str:
     text = text.replace(".", "").strip()
 
     for domain in domains:
-        if text in domain:
+        if text == domain:
             return f".{domain}"
 
     return text

@@ -1,5 +1,5 @@
 import os
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse, FileResponse
 import uvicorn
 from main import main
@@ -14,12 +14,14 @@ from calculate.pickle import *
 import cv2
 import argparse
 
+
 class Image_str(BaseModel):
     image_str: str
 
-app = FastAPI()
 
+app = FastAPI()
 finder = FinderAcora()
+server_logger = log_and_config.get_logger("server")
 config = log_and_config.load_config()
 tokenizer = config["model"]["tokenizer"]
 model_dir = config["model"]["model_dir"]
@@ -31,15 +33,28 @@ model.to(device)
 
 
 @app.post("/")
-def print_result(image_str: Image_str) -> str:
-
+def print_result(image_str: Image_str, request: Request) -> str:
+    client_host = request.client.host
+    client_port = request.client.port
+    server_logger.info(f"{client_host}:{client_port} requests api")
     imgdata = base64.b64decode(image_str.image_str)
-
-    content = main(
-        img=imgdata, model=model, tokenizer=tokenizer, device=device, finder=finder
-    )
+    with log_and_config.timer("api", server_logger):
+        content = main(
+            img=imgdata, model=model, tokenizer=tokenizer, device=device, finder=finder
+        )
+    server_logger.info(f"{client_host}:{client_port} result = {content}")
 
     return JSONResponse(content=content)
+
+
+@app.on_event("startup")
+async def server_start():
+    server_logger.info("server start")
+
+
+@app.on_event("shutdown")
+async def server_down():
+    server_logger.info("server down")
 
 
 @app.post("/static")
@@ -51,10 +66,17 @@ def image_upload():
 def image_upload():
     return FileResponse("temp.jpg")
 
+
 def run(args):
     if args.calculate:
         if not os.path.exists("./pred.pkl"):
-            save_pred_pickle(callback_fn=main, model=model, tokenizer=tokenizer, device=device, finder=finder)
+            save_pred_pickle(
+                callback_fn=main,
+                model=model,
+                tokenizer=tokenizer,
+                device=device,
+                finder=finder,
+            )
 
         pred = load_pred_pickle()
 
@@ -63,19 +85,23 @@ def run(args):
         print(f"CAL ACC : {calculate_accuracy(true, pred)}")
 
     else:
-        # uvicorn.run(app, host="0.0.0.0", port=30001)
-        img = cv2.imread("/opt/ml/final/data/test_dataset/raw_image/raw_image16.jpg")
-        img = cv2.imencode(".PNG", img)[1].tobytes()
-        print(
-            main(img=img, model=model, tokenizer=tokenizer, device=device, finder=finder)
-        )
+        uvicorn.run(app, host="0.0.0.0", port=30001)
+        # img = cv2.imread("/opt/ml/img/raw_image_3.jpg")
+        # img = cv2.imencode(".PNG", img)[1].tobytes()
+        # print(
+        #     main(
+        #         img=img, model=model, tokenizer=tokenizer, device=device, finder=finder
+        #     )
+        # )
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
 
     # Metric 측정용 Argument
-    parser.add_argument('--calculate', type=bool, default=False,
-                        help='Calculate Accuracy')
+    parser.add_argument(
+        "--calculate", type=bool, default=False, help="Calculate Accuracy"
+    )
 
-    args= parser.parse_args()
+    args = parser.parse_args()
     run(args)

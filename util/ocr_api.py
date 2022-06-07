@@ -1,30 +1,21 @@
 import json
 from pathlib import PosixPath
-from pydantic import BaseModel, FilePath, Json, validator, HttpUrl
+from pydantic import BaseModel, FilePath, validator, HttpUrl
 from typing import Union, Dict, List
 import requests
-from yaml import load, FullLoader
-from contextlib import contextmanager
-import time
-import logging
 import numpy as np
 import concurrent.futures
-import cv2
-from preprocess_image import img_to_binary
-
-
-@contextmanager
-def timer(name: str, logger: logging.Logger):
-    t0 = time.time()
-    yield
-    logger.info(f"{name} done in {time.time() - t0:.3f} s")
+import sys
+sys.path.append("../")
+from preprocess.image import img_to_binary
+from util.log_and_config import *
 
 
 class ImagePath(BaseModel):
-    path: Union[FilePath, HttpUrl]
+    path: Union[FilePath, HttpUrl, bytes]
 
     @validator("path")
-    def is_image(cls, v):
+    def is_path(cls, v):
         _valid_extension = (".jpg", ".png", ".jpeg")
         if isinstance(v, PosixPath):
             extension = v.suffix
@@ -37,27 +28,22 @@ class ImagePath(BaseModel):
                 raise ValueError("Url is not jpg, png, or jpeg")
             return v
 
+        elif isinstance(v, bytes):
+            return v
+
         else:
             raise ValueError("Invalid path type")
-
-
-def load_config(config_path: str = "./yaml/config.yaml",) -> Dict[str, any]:
-    with open(config_path, "r") as f:
-        config = load(f, FullLoader)
-
-    return config
 
 
 def get_img_path(path: str) -> ImagePath:
     return ImagePath(path=path)
 
 
-def call_ocr_api(img_byte: bytes) -> json:
-    img_path = img_byte
+def call_ocr_api(img: Union[bytes, ImagePath]) -> json:
+    img_path = get_img_path(img)
     config = load_config()
     api_url = config["ocr"]["api_url"]
     headers = config["ocr"]["headers"]
-
     if isinstance(img_path, ImagePath):
         if isinstance(img_path.path, PosixPath):  # FilePath
             file_dict = {"file": open(img_path.path, "rb")}
@@ -67,9 +53,9 @@ def call_ocr_api(img_byte: bytes) -> json:
             data = {"url": img_path.path}
             response = requests.post(api_url, headers=headers, data=data)
 
-    else:  # Bytes
-        file_dict = {"file": img_path}
-        response = requests.post(api_url, headers=headers, files=file_dict)
+        else:  # Bytes
+            file_dict = {"file": img_path.path}
+            response = requests.post(api_url, headers=headers, files=file_dict)
 
     return response.json()
 

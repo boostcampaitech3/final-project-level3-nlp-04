@@ -2,7 +2,7 @@ import os
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse, FileResponse
 import uvicorn
-from main_mt import main
+from main import main
 import base64
 from pydantic import BaseModel
 from transformers import AutoTokenizer, AutoModelForTokenClassification

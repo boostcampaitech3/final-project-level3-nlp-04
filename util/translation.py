@@ -9,7 +9,7 @@ def get_translate(text, lan1, lan2, num):
 
     data = {"text": text, "source": lan1, "target": lan2}
 
-    url = "https://openapi.naver.com/v1/papago/n2mt"
+    url = config["naver_api"]["url"]
 
     header = {
         "X-Naver-Client-Id": client_id_list[num],

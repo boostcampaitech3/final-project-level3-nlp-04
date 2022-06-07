@@ -150,6 +150,7 @@ def find_degree_and_point(ocr_output: Dict) -> Tuple[float, int, int]:
 
 # 이미지를 잘라주는 함수
 def crop_image(img: np.ndarray) -> np.ndarray:
+
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     ret, thr = cv2.threshold(gray, 0, 255, cv2.THRESH_OTSU)
     contours, _ = cv2.findContours(thr, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
@@ -167,31 +168,55 @@ def crop_image(img: np.ndarray) -> np.ndarray:
                 # 이미지 자르기
                 img_trim = img[pt1[1] : pt2[1], pt1[0] : pt2[0]]
                 return img_trim
-    
+
     return img
 
 
+# 이미지를 바이트로 바꾸는 작업
 def img_to_binary(img: np.ndarray) -> bytes:
-    cv2.imwrite("temp.jpg", img)
+    # cv2.imwrite("temp.jpg", img)
     return cv2.imencode(".PNG", img)[1].tobytes()
 
 
+# 이미지 이진화(임계처리)
+def img_binary_process(img):
+    image_grey = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    # Adaptive Thresholding 적용
+    max_output_value = 255  # 출력 픽셀 강도의 최대값
+    neighborhood_size = 99
+    subtract_from_mean = 10
+    image_binarized = cv2.adaptiveThreshold(
+        image_grey,
+        max_output_value,
+        cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
+        cv2.THRESH_BINARY,
+        neighborhood_size,
+        subtract_from_mean,
+    )
+    return image_binarized
+
+
+# 이미지 대비 높이기
+def img_contrast(img):
+    image_grey = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    image_enhanced = cv2.equalizeHist(image_grey)
+
+    return image_enhanced
+
+
+# 이미지를 다양한 방법으로 처리한다, 처리한 이미지는 multi thread로 실행
 def img_augmentation(img: np.ndarray) -> List[np.ndarray]:
+    # 1. 기본 이미지(1차 전처리)
+    convert_img = img_sharpening(img)
+    convert_img = img_denoising(convert_img)
+    # 2. 이진화 이미지
+    binary_image = img_binary_process(convert_img)
+    # 3. 대비 향상 이미지
+    contrast_image = img_contrast(convert_img)
+    # 4. 색반전 이미지
+    negative_image = 255 - convert_img
 
-    # 1. 기본 이미지 : img
-
-    # 2. 기본 이미지 +15도
-    img_plus_15 = img_rotate(img, 15)
-
-    # 3. 기본 이미지 -15도
-    img_minus_15 = img_rotate(img, -15)
-
-    # 4. 선명도 높이기
-    img_sharped = img_sharpening(img)
-
-    # 5. 이미지 노이즈 제거
-    img_denoised = img_denoising(img)
-
-    augmentation_img = [img, img_plus_15, img_minus_15, img_sharped, img_denoised]
+    # OCR input 이미지를 담은 리스트
+    augmentation_img = [convert_img, binary_image, contrast_image, negative_image]
 
     return augmentation_img

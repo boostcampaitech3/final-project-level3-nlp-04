@@ -41,11 +41,7 @@ junseok0408@konkuk.ac.kr|inbeom0907@gmail.com|songjun5711@gmail.com|f2921641@gma
 
 ## 3. Demo
 
-### 📖 ODQA 예시
-![ODQA 예시](https://user-images.githubusercontent.com/35680202/147240932-0f44c8e1-f55c-417f-a9b3-df48e62eb3d0.gif)
-
-### 👀 VQA 예시
-![VQA 예시](https://user-images.githubusercontent.com/35680202/147241018-95e33ffe-da80-434c-a65c-41a8cf820b62.gif)
+### 👀 명함 인식 앱 구동 예시
 
 ## 4. How to Use
 ```
@@ -104,52 +100,3 @@ poe force-cuda11
 poe init-vqa
 python app.py
 ```
-
-
-## 5. References
-
-### Datasets
-
-- [KorQuAD v2.0](https://korquad.github.io/)
-    - 라이센스 : CC BY-ND 2.0 KR
-- [KLUE - MRC](https://github.com/KLUE-benchmark/KLUE)
-    - 라이센스 : CC BY-SA 4.0
-- [KVQA(Korean Visual Question Answering)](https://github.com/SKTBrain/KVQA)
-    - 라이센스 : [Korean VQA License](https://github.com/SKTBrain/KVQA/blob/master/LICENSE)
-- [AI HUB 개방 데이터](https://aihub.or.kr/aihub-data/natural-language/about)
-    - 라이센스 : https://aihub.or.kr/intro/policy
-
-
-### Paper
-- [Antol, Stanislaw, et al. "Vqa: Visual question answering." Proceedings of the IEEE international conference on computer vision. 2015](https://www.cv-foundation.org/openaccess/content_iccv_2015/papers/Antol_VQA_Visual_Question_ICCV_2015_paper.pdf)
-- [Yang, Zichao, et al. "Stacked attention networks for image question answering." Proceedings of the IEEE conference on computer vision and pattern recognition. 2016](https://openaccess.thecvf.com/content_cvpr_2016/papers/Yang_Stacked_Attention_Networks_CVPR_2016_paper.pdf)
-- [Jin-Hwa Kim, Jaehyun Jun, and Byoung-Tak Zhang. "Bilinear attention networks." Advances in Neural Information Processing Systems 31. 2018](https://papers.nips.cc/paper/2018/file/96ea64f3a1aa2fd00c72faacf0cb8ac9-Paper.pdf)
-- [Jin-Hwa Kim, Soohyun Lim, et al. "Korean Localization of Visual Question Answering for Blind People." AI for Social Good workshop at NeurIPS. 2019](https://aiforsocialgood.github.io/neurips2019/accepted/track1/pdfs/44_aisg_neurips2019.pdf)
-- [Anderson, Peter, et al. "Bottom-up and top-down attention for image captioning and visual question answering." Proceedings of the IEEE conference on computer vision and pattern recognition. 2018.](https://openaccess.thecvf.com/content_cvpr_2018/CameraReady/1163.pdf)
-- [Xu et al., Curriculum Learning for Natural Language Understanding, ACL 2020](https://aclanthology.org/2020.acl-main.542.pdf)
-- [ZHANG, Zhuosheng; YANG, Junjie; ZHAO, Hai. Retrospective reader for machine reading comprehension. arXiv preprint arXiv:2001.09694, 2020.](https://arxiv.org/pdf/2001.09694.pdf")
-
-### Software
-#### Open-Domain Question Answering - Reader
-- [monologg/koelectra-small-v3-discriminator](https://huggingface.co/monologg/koelectra-small-v3-discriminator)
-- [huggingface/datasets](https://github.com/huggingface/datasets)
-- [huggingface/transformers](https://github.com/huggingface/transformers)
-- [retro reader](https://github.com/cooelf/AwesomeMRC)
-
-#### Open-Domain Question Answering - Retrieval
-- [elastricsearch](https://github.com/elastic/elasticsearch-py)
-
-#### Visual Question Answering
-- [MILVLG/bottom-up-attention](https://github.com/MILVLG/bottom-up-attention.pytorch)
-- [Shivanshu-Gupta/Stacked Attention Network](https://github.com/Shivanshu-Gupta/Visual-Question-Answering)
-- [SKTBrain/BAN-KVQA](https://github.com/SKTBrain/BAN-KVQA)
-
-#### Web Frameworks
-- [Vuejs/Vuetify](https://github.com/vuetifyjs/vuetify)
-- [FastAPI](https://github.com/tiangolo/fastapi)
-- [Stremlit](https://github.com/streamlit/streamlit)
-
-
-
-# final-project-level3-nlp-04
-

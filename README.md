@@ -11,14 +11,7 @@
 김준석|서인범|심효은|정시현|송영준|
 :-:|:-:|:-:|:-:|:-:
 
-<img src='https://avatars.githubusercontent.com/u/71753257?v=4' height=80 width=80px></img>
-|<img src='https://avatars.githubusercontent.com/u/92137358?v=4' height=80 width=80px></img>
-|<img src='https://avatars.githubusercontent.com/u/62679143?v=4' height=80 width=80px></img>
-|<img src='https://user-images.githubusercontent.com/46811558/157460704-6a5ac09f-fe71-4dd3-b30a-f2fa347b08d2.jpg' height=80 width=80px></img>
-|<img src='https://avatars.githubusercontent.com/u/55626702?v=4' height=80 width=80px></img>
-
-
-
+<img src='https://avatars.githubusercontent.com/u/71753257?v=4' height=80 width=80px></img>|<img src='https://avatars.githubusercontent.com/u/92137358?v=4' height=80 width=80px></img>|<img src='https://avatars.githubusercontent.com/u/62679143?v=4' height=80 width=80px></img>|<img src='https://user-images.githubusercontent.com/46811558/157460704-6a5ac09f-fe71-4dd3-b30a-f2fa347b08d2.jpg' height=80 width=80px></img>|<img src='https://avatars.githubusercontent.com/u/55626702?v=4' height=80 width=80px></img>
 [Github](https://github.com/junseok0408)|[Github](https://github.com/inbeomi)|[Github](https://github.com/hyoeun98)|[Github](https://github.com/jungsiroo)|[Github](https://github.com/addadda15)|<img src='https://avatars.githubusercontent.com/u/55626702?v=4' height=80 width=80px></img>|<img src='https://avatars.githubusercontent.com/u/62679143?v=4' height=80 width=80px></img>|
  
 #### 🔅 Contribution  

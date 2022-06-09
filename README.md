@@ -1,27 +1,27 @@
-# 명함 정보 추출 (Post OCR Parsing) 프로젝트
+# 🟪 Upstage Post OCR Parsing Project (명함 정보 추출) 🟪
 
 ## 1. Introduction
 
-### Team KiYOUNG2
+### Team 유쾌한 반란
 
-_"Korean is all YOU Need for dialoGuE"_
+
 
 #### 🔅 Members  
 
-김대웅|김채은|김태욱|유영재|이하람|진명훈|허진규|
+김준석|서인범|심효은|정시현|송영준|
 :-:|:-:|:-:|:-:|:-:|:-:|:-:
 <img src='https://avatars.githubusercontent.com/u/41335296?v=4' height=80 width=80px></img>|<img src='https://avatars.githubusercontent.com/u/60843683?v=4' height=80 width=80px></img>|<img src='https://avatars.githubusercontent.com/u/47404628?v=4' height=80 width=80px></img>|<img src='https://avatars.githubusercontent.com/u/53523319?v=4' height=80 width=80px></img>|<img src='https://avatars.githubusercontent.com/u/35680202?v=4' height=80 width=80px></img>|<img src='https://avatars.githubusercontent.com/u/37775784?v=4' height=80 width=80px></img>|<img src='https://avatars.githubusercontent.com/u/88299729?v=4' height=80 width=80px></img>
 [Github](https://github.com/KimDaeUng)|[Github](https://github.com/Amber-Chaeeunk)|[Github](https://github.com/taeukkkim)|[Github](https://github.com/uyeongjae)|[Github](https://github.com/hrxorxm)|[Github](https://github.com/jinmang2)|[Github](https://github.com/JeangyuHeo)
 
 #### 🔅 Contribution  
 
-- [`진명훈`](https://github.com/jinmang2) &nbsp; PM • Retro Reader
-- [`김대웅`](https://github.com/KimDaeUng) &nbsp; Visual Question Answering
-- [`김태욱`](https://github.com/taeukkkim) &nbsp; Open-Domain Question Answering • Dialog
-- [`허진규`](https://github.com/JeangyuHeo) &nbsp; Visual Question Answering • Video Question Answering
-- [`이하람`](https://github.com/hrxorxm) &nbsp; Frontend • Backend
-- [`김채은`](https://github.com/Amber-Chaeeunk) &nbsp; Frontend • Backend
-- [`유영재`](https://github.com/uyeongjae) &nbsp; Open-Domain Question Answering • Dialog
+- [`김준석`](https://github.com/jinmang2) &nbsp; Image Preprocess, Serialization, Multi-threading, Text Post Process
+- [`서인범`](https://github.com/KimDaeUng) &nbsp; Model Research, Metric, Data Annotation
+- [`심효은`](https://github.com/taeukkkim) &nbsp; Multi-threading, Modularity, Construct Pipeline, Refactoring
+- [`정시현`](https://github.com/JeangyuHeo) &nbsp; Serialization, Text Pre·Post Process, Android App Develop, Refactoring
+- [`송영준`](https://github.com/hrxorxm) &nbsp; Serialization, Fast API Server, Android App Develop
+
+
 
 ## 2. Project Outline
 

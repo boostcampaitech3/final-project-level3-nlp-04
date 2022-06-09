@@ -1,4 +1,4 @@
-# 🟪 Upstage Post OCR Parsing Project (명함 정보 추출) 🟪
+# 🟪 Upstage Post OCR Parsing Project (명함 정보 추출)
 
 ## 1. Introduction
 

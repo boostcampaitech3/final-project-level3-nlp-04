@@ -11,16 +11,15 @@
 김준석|서인범|심효은|정시현|송영준|
 :-:|:-:|:-:|:-:|:-:
 <img src='https://avatars.githubusercontent.com/u/41335296?v=4' height=80 width=80px></img>|<img src='https://avatars.githubusercontent.com/u/60843683?v=4' height=80 width=80px></img>|<img src='https://avatars.githubusercontent.com/u/47404628?v=4' height=80 width=80px></img>|<img src='https://avatars.githubusercontent.com/u/53523319?v=4' height=80 width=80px></img>|<img src='https://avatars.githubusercontent.com/u/35680202?v=4' height=80 width=80px></img>|<img src='https://avatars.githubusercontent.com/u/37775784?v=4' height=80 width=80px></img>|<img src='https://avatars.githubusercontent.com/u/88299729?v=4' height=80 width=80px></img>
-[Github](https://github.com/KimDaeUng)|[Github](https://github.com/Amber-Chaeeunk)|[Github](https://github.com/taeukkkim)|[Github](https://github.com/uyeongjae)|[Github](https://github.com/hrxorxm)|[Github](https://github.com/jinmang2)|[Github](https://github.com/JeangyuHeo)
-
+[Github](https://github.com/junseok0408)|[Github](https://github.com/inbeomi)|[Github](https://github.com/hyoeun98)|[Github](https://github.com/jungsiroo)|[Github](https://github.com/addadda15)
+ 
 #### 🔅 Contribution  
 
-- [`김준석`](https://github.com/jinmang2) &nbsp; Image Preprocess, Serialization, Multi-threading, Text Post Process
-- [`서인범`](https://github.com/KimDaeUng) &nbsp; Model Research, Metric, Data Annotation
-- [`심효은`](https://github.com/taeukkkim) &nbsp; Multi-threading, Modularity, Construct Pipeline, Refactoring
-- [`정시현`](https://github.com/JeangyuHeo) &nbsp; Serialization, Text Pre·Post Process, Android App Develop, Refactoring
-- [`송영준`](https://github.com/hrxorxm) &nbsp; Serialization, Fast API Server, Android App Develop
-
+- [`김준석`](https://github.com/junseok0408) &nbsp; Image Preprocess, Serialization, Multi-threading, Text Post Process
+- [`서인범`](https://github.com/inbeomi) &nbsp; Model Research, Metric, Data Annotation
+- [`심효은`](https://github.com/hyoeun98) &nbsp; Multi-threading, Modularity, Construct Pipeline, Refactoring
+- [`정시현`](https://github.com/jungsiroo) &nbsp; Serialization, Text Pre·Post Process, Android App Develop, Refactoring
+- [`송영준`](https://github.com/addadda15) &nbsp; Serialization, Fast API Server, Android App Develop
 
 
 ## 2. Project Outline

@@ -1,4 +1,4 @@
-# 읽거나📖 보고🔍, 아는 것만 답변하는 지혜로운 기영이봇🤓
+# Upstage 기업 연계 명함 정보 추출 (Post OCR Parsing) 프로젝트
 
 ## 1. Introduction
 

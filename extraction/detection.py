@@ -2,6 +2,7 @@ from typing import DefaultDict
 import itertools
 import re
 import sys
+
 sys.path.append("../")
 from preprocess.cleansing import *
 from util.translation import *
@@ -9,6 +10,7 @@ from util.translation import *
 """
 Detection 함수 Module
 """
+
 
 def detect_phone(serialized: DefaultDict) -> DefaultDict:
     stack = []
@@ -30,7 +32,9 @@ def detect_phone(serialized: DefaultDict) -> DefaultDict:
                 stack.clear()
 
     serialized = remove_duplicate(serialized, phone_list)
-    phone_list = list(filter(lambda x: x.startswith("010") or x.startswith("011"), phone_list))
+    phone_list = list(
+        filter(lambda x: x.startswith("010") or x.startswith("011"), phone_list)
+    )
     serialized["phone"].extend(phone_list)
 
     return serialized
@@ -42,7 +46,7 @@ def detect_email(serialized: DefaultDict) -> DefaultDict:
     p = re.compile("^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$")
 
     for val in itertools.chain.from_iterable(serialized.values()):
-        if p.match(val) and not val.endswith('co'):
+        if p.match(val) and not val.endswith("co"):
             email_list.append(val)
             break
 
@@ -58,7 +62,7 @@ def detect_email(serialized: DefaultDict) -> DefaultDict:
             stack.append(temp + val)
 
         if p.match(stack[-1]):
-            if stack[-1].endswith('co'):
+            if stack[-1].endswith("co"):
                 continue
             email_list.append(stack[-1])
             break
@@ -68,23 +72,59 @@ def detect_email(serialized: DefaultDict) -> DefaultDict:
 
     return serialized
 
+
 def detect_job(sentence, finder):
     # 기본적인 Rule-Base 병행
-    job_list = ["매니저","매니져","회장","사장","전무","상무","이사","부장","차장","과장","계장","대리","주임","사원","인턴",
-                "본부장","지점장","행장","부행장","실장","수습사원","선임","책임","수석","반장","공장장","대표",]
-    
+    job_list = [
+        "매니저",
+        "매니져",
+        "회장",
+        "사장",
+        "전무",
+        "상무",
+        "이사",
+        "부장",
+        "차장",
+        "과장",
+        "계장",
+        "대리",
+        "주임",
+        "사원",
+        "인턴",
+        "본부장",
+        "지점장",
+        "행장",
+        "부행장",
+        "실장",
+        "수습사원",
+        "선임",
+        "책임",
+        "수석",
+        "반장",
+        "공장장",
+        "대표",
+        "팀장",
+        "검사",
+        "국장",
+        "센터장",
+        "주무관",
+        "입학사정관",
+        "디자이너",
+        "지부장",
+        "오토플래너",
+    ]
+
     # 텍스트 전처리
-    sentence = re.sub("[-=+,#/\?:^$.@*\"※~&%ㆍ!』\\'|\(\)\[\]\<\>`\'…》]",' ', sentence)
+    sentence = re.sub("[-=+,#/\?:^$.@*\"※~&%ㆍ!』\\'|\(\)\[\]\<\>`'…》]", " ", sentence)
     processed_sentence = re.sub("[ ]", "/", sentence)
 
     # 한국어 문장 쪼개기
     kor_split_list = processed_sentence.split("/")
     # print(kor_split_list)
-    
+
     flag = 0
-    eng_split_list = []  
-    
-    
+    eng_split_list = []
+
     for text_idx, text in enumerate(kor_split_list):
 
         # Rule-Base 탐색(job_list)
@@ -112,15 +152,15 @@ def detect_job(sentence, finder):
             if eng_sentence != 429:
                 eng_split_list = eng_sentence.split("/")
                 flag = 1
-        
+
         ans_idx = int()
         flag = 0
-        
-        for idx, text in enumerate(eng_split_list) : 
-            
-            if flag == 1 : 
+
+        for idx, text in enumerate(eng_split_list):
+
+            if flag == 1:
                 break
-            input_text = text.strip()            
+            input_text = text.strip()
             try:
                 output = finder.findall(input_text)
                 ans_idx = idx
@@ -128,9 +168,9 @@ def detect_job(sentence, finder):
             except:
                 continue
 
-        if flag == 1 :
+        if flag == 1:
             return kor_split_list[ans_idx]
-        
-        else :
-            false_text = ''
+
+        else:
+            false_text = ""
             return false_text

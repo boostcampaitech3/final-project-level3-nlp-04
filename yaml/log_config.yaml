@@ -14,13 +14,13 @@ handlers:
   console:
     class: logging.StreamHandler
     level: INFO
-    formatter: json
+    formatter: simple
     stream: ext://sys.stdout
 
   logfile:
     class: logging.handlers.RotatingFileHandler
     level: INFO
-    formatter: json
+    formatter: simple
     filename: log/info.log
     maxBytes: 10485760 # 10MB
     backupCount: 20

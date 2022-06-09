@@ -114,7 +114,8 @@ def get_final_output(output):
 
     return new_output
 
-def ensemble(outputs: List[OrderedDict])->OrderedDict:
+
+def ensemble(outputs: List[OrderedDict]) -> OrderedDict:
     name_list = ""
     job_title_list = ""
     company_list = ""
@@ -122,21 +123,27 @@ def ensemble(outputs: List[OrderedDict])->OrderedDict:
     phone_list = ""
     email_list = ""
 
-    ensemble_name, ensemble_job, ensemble_company, ensemble_loc, ensemble_phone, ensemble_email = \
-        "", "", "", "", "", ""
+    (
+        ensemble_name,
+        ensemble_job,
+        ensemble_company,
+        ensemble_loc,
+        ensemble_phone,
+        ensemble_email,
+    ) = ("", "", "", "", "", "")
 
     for output in outputs:
-        if output["이름"]!='Scan Failed' and len(output["이름"]) > 1:
+        if output["이름"] != "Scan Failed" and len(output["이름"]) > 1:
             name_list += f'{output["이름"]} '
-        if output["직책"]!='Scan Failed' and len(output["직책"]) > 1:
+        if output["직책"] != "Scan Failed" and len(output["직책"]) > 1:
             job_title_list += f'{output["직책"]} '
-        if output["회사명"]!='Scan Failed' and len(output["회사명"]) > 1:
+        if output["회사명"] != "Scan Failed" and len(output["회사명"]) > 1:
             company_list += f'{output["회사명"]} '
-        if output["주소"]!='Scan Failed' and len(output["주소"]) > 1:
+        if output["주소"] != "Scan Failed" and len(output["주소"]) > 1:
             location_list += f'{output["주소"]} '
-        if output["전화번호"]!='Scan Failed' and len(output["전화번호"]) > 1:
+        if output["전화번호"] != "Scan Failed" and len(output["전화번호"]) > 1:
             phone_list += f'{output["전화번호"]} '
-        if output["이메일"]!='Scan Failed' and len(output["이메일"]) > 1:
+        if output["이메일"] != "Scan Failed" and len(output["이메일"]) > 1:
             email_list += f'{output["이메일"]} '
 
     name_list = name_list.strip().split()
@@ -159,61 +166,68 @@ def ensemble(outputs: List[OrderedDict])->OrderedDict:
     if not email_list:
         email_list.append("Scan Failed")
 
-    print(name_list)
-    print(job_title_list)
-    print(location_list)
-    print(phone_list)
-    print(email_list)
-    print(company_list)
-
     for name in name_list:
         if len(list(set(name_list))) == 1:
-            ensemble_name = name 
+            ensemble_name = name
             break
-        if name_list.count(name) > 1 and name not in ensemble_name and len(name)>1:
-            ensemble_name += f'{name} '
+        if name_list.count(name) > 1 and name not in ensemble_name and len(name) > 1:
+            ensemble_name += f"{name} "
 
     for job in job_title_list:
         if len(list(set(job_title_list))) == 1:
-            ensemble_job = job 
+            ensemble_job = job
             break
-        if job_title_list.count(job) > 1 and job not in ensemble_job and len(job)>1:
-            ensemble_job+= f'{job} '
+        if job_title_list.count(job) > 1 and job not in ensemble_job and len(job) > 1:
+            ensemble_job += f"{job} "
 
     for company in company_list:
         if len(list(set(company_list))) == 1:
-            ensemble_company = company 
+            ensemble_company = company
             break
-        if company_list.count(company) > 1 and company not in ensemble_company and len(company)>1:
-            ensemble_company += f'{company} '
+        if (
+            company_list.count(company) > 1
+            and company not in ensemble_company
+            and len(company) > 1
+        ):
+            ensemble_company += f"{company} "
 
     for loc in location_list:
         if len(list(set(location_list))) == 1:
-            ensemble_loc = loc 
+            ensemble_loc = loc
             break
-        if location_list.count(loc) > 1 and loc not in ensemble_loc and len(loc)>1:
-            ensemble_loc += f'{loc} '
+        if location_list.count(loc) > 1 and loc not in ensemble_loc and len(loc) > 1:
+            ensemble_loc += f"{loc} "
 
     for phone in phone_list:
         if len(list(set(phone_list))) == 1:
-            ensemble_phone = phone 
+            ensemble_phone = phone
             break
-        if phone_list.count(phone) > 1 and phone not in ensemble_phone and len(phone)>1:
-            ensemble_phone += f'{phone} '
+        if (
+            phone_list.count(phone) > 1
+            and phone not in ensemble_phone
+            and len(phone) > 1
+        ):
+            ensemble_phone += f"{phone} "
 
     for email in email_list:
         if len(list(set(email_list))) == 1:
-            ensemble_email=email 
+            ensemble_email = email
             break
-        if email_list.count(email) > 1 and email not in ensemble_email and len(email)>1:
-            ensemble_email += f'{email} '
+        if (
+            email_list.count(email) > 1
+            and email not in ensemble_email
+            and len(email) > 1
+        ):
+            ensemble_email += f"{email} "
 
-    ensemble_name = name_list[0] if ensemble_name == '' else ensemble_name.strip()
-    ensemble_loc = location_list[0] if ensemble_loc == '' else ensemble_loc.strip()
-    ensemble_company = company_list[0] if ensemble_company == '' else ensemble_company.strip()
-    ensemble_job = job_title_list[0] if ensemble_job == '' else ensemble_job.strip()
-    ensemble_email = email_list[0] if ensemble_email == '' else ensemble_email.strip()
-    ensemble_phone = phone_list[0] if ensemble_phone == '' else ensemble_phone.strip()
+    ensemble_name = name_list[0] if ensemble_name == "" else ensemble_name.strip()
+    ensemble_loc = location_list[0] if ensemble_loc == "" else ensemble_loc.strip()
+    ensemble_company = (
+        company_list[0] if ensemble_company == "" else ensemble_company.strip()
+    )
+    ensemble_job = job_title_list[0] if ensemble_job == "" else ensemble_job.strip()
+    ensemble_email = email_list[0] if ensemble_email == "" else ensemble_email.strip()
+    ensemble_phone = phone_list[0] if ensemble_phone == "" else ensemble_phone.strip()
 
     ensemble_output = OrderedDict(
         {
@@ -225,5 +239,5 @@ def ensemble(outputs: List[OrderedDict])->OrderedDict:
             "이메일": ensemble_email,
         }
     )
-    
+
     return ensemble_output

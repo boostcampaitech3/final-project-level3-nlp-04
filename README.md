@@ -18,9 +18,9 @@ junseok0408@konkuk.ac.kr|inbeom0907@gmail.com|songjun5711@gmail.com|f2921641@gma
 
 - [`김준석`](https://github.com/junseok0408) &nbsp; Image Preprocess, Serialization, Multi-threading, Text Post Process
 - [`서인범`](https://github.com/inbeomi) &nbsp; Model Research, Metric, Data Annotation
+- [`송영준`](https://github.com/addadda15) &nbsp; Serialization, Fast API Server, Android App Develop
 - [`심효은`](https://github.com/hyoeun98) &nbsp; Multi-threading, Modularity, Construct Pipeline, Refactoring
 - [`정시현`](https://github.com/jungsiroo) &nbsp; Serialization, Text Pre·Post Process, Android App Develop, Refactoring
-- [`송영준`](https://github.com/addadda15) &nbsp; Serialization, Fast API Server, Android App Develop
 
 
 ## 2. Project Outline

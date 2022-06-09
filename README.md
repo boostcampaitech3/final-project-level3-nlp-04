@@ -1,4 +1,4 @@
-# Upstage 기업 연계 명함 정보 추출 (Post OCR Parsing) 프로젝트
+# 명함 정보 추출 (Post OCR Parsing) 프로젝트
 
 ## 1. Introduction
 

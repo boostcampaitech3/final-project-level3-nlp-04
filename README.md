@@ -81,6 +81,12 @@ junseok0408@konkuk.ac.kr|inbeom0907@gmail.com|songjun5711@gmail.com|f2921641@nav
 ├── requirements.txt
 ```
 
+## Docker
+```
+docker pull a2921641/post_ocr:latest
+docker run a2921641/post_ocr:latest -p 30001:30001
+```
+
 아래 명령어로 실행 가능합니다.
 
 ```bash

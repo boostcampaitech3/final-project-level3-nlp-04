@@ -86,6 +86,12 @@
 ├── README.md
 ├── requirements.txt
 ```
+## Docker
+```
+docker pull a2921641/post_ocr:latest
+dokcer run a2921641/post_ocr -p 30001:30001
+```
+
 
 아래 명령어로 실행 가능합니다.
 

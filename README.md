@@ -104,7 +104,7 @@ Metric 실행
 python app.py --calculate True >> metric_result
 ```
 
-## Docker
+## 🐬Docker
 ```
 docker pull a2921641/post_ocr:latest
 docker run a2921641/post_ocr -p 30001:30001

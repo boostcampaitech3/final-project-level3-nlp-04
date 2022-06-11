@@ -4,8 +4,10 @@ from typing import Dict, Tuple, List
 from sklearn.metrics import f1_score, recall_score, precision_score
 import pprint
 import sys
+
 sys.path.append("../")
 from preprocess.cleansing import cleaning_special_token
+
 """
 category-level f1 score
     - precision :  (그 중 실제 데이터에 있는 정보 수)/(모델이 추출한 정보 수)
@@ -18,9 +20,10 @@ OCR로 값을 거치는 것이기 때문에 모델이 예측한 답이 불완전
 그 기준은 주관적일 수 밖에 없는데,, 일단은 10%라고 하자. Error 값이 높지 않다면 그것은 맞춘 정보라고 하자.
  """
 
+
 def cer(ref: str, hyp: str) -> Tuple[int, int, int]:
-    hyp = hyp.replace(' ', '')
-    ref = ref.replace(' ', '')
+    hyp = hyp.replace(" ", "")
+    ref = ref.replace(" ", "")
     ref = cleaning_special_token(ref)
     hyp = cleaning_special_token(hyp)
     pprint.pprint(f"TRUE : {ref} / PRED : {hyp}")
@@ -28,31 +31,36 @@ def cer(ref: str, hyp: str) -> Tuple[int, int, int]:
     dist = Lev.distance(hyp, ref)
     length = len(ref)
 
-    return dist, length, dist/length
+    return dist, length, dist / length
 
 
-def calculate_metric(y_true: Dict[str, str], y_pred: Dict[str, str], threshold: int = 0.3) -> Dict[str, int]:
+def calculate_metric(
+    y_true: Dict[str, str], y_pred: Dict[str, str], threshold: int = 0.3
+) -> Dict[str, int]:
 
     y_true_value = [x for x in y_true.values()]
     y_pred_value = [x for x in y_pred.values()]
 
-    y_true_bin = [1 if x != 'Scan Failed' else 0 for x in y_true_value]
+    y_true_bin = [1 if x != "Scan Failed" else 0 for x in y_true_value]
     y_pred_bin = []
 
     for ref, hyp in zip(y_true_value, y_pred_value):
         if cer(ref, hyp)[2] <= threshold:
             if hyp == "Scan Failed":
-               y_pred_bin.append(0) 
+                y_pred_bin.append(0)
             else:
                 y_pred_bin.append(1)
         else:
             y_pred_bin.append(0)
 
-    answer = {"f1_score": f1_score(y_true_bin, y_pred_bin),
-              "precision": precision_score(y_true_bin, y_pred_bin),
-              "recall": recall_score(y_true_bin, y_pred_bin)}
+    answer = {
+        "f1_score": f1_score(y_true_bin, y_pred_bin),
+        "precision": precision_score(y_true_bin, y_pred_bin),
+        "recall": recall_score(y_true_bin, y_pred_bin),
+    }
 
     return answer
+
 
 # image-level accuracy : 이미지내에 모든 필요 정보를 찾은 비율
 # 하나의 이미지 정보에서 f1_score가 1(모든 정보를 오탈자 없이 완벽하게 찾은 경우)이면 가장 좋겠지만 현실적으로 그러기란 쉽지 않음.
@@ -60,7 +68,7 @@ def calculate_metric(y_true: Dict[str, str], y_pred: Dict[str, str], threshold: 
 
 
 def make_true_list(path: str) -> List[Dict[str, str]]:
-    
+
     df = pd.read_csv(path, index_col=0)
 
     true_list = []
@@ -70,13 +78,18 @@ def make_true_list(path: str) -> List[Dict[str, str]]:
     return true_list
 
 
-def calculate_accuracy(true_list: List[Dict[str, str]], pred_list: List[Dict[str, str]], threshold: int = 0.6) -> int:
+def calculate_accuracy(
+    true_list: List[Dict[str, str]],
+    pred_list: List[Dict[str, str]],
+    threshold: int = 0.6,
+) -> int:
     cnt = 0
     for y_true, y_pred in zip(true_list, pred_list):
         metric = calculate_metric(y_true, y_pred)
-        if metric['f1_score'] >= threshold:
+        if metric["f1_score"] >= threshold:
             cnt += 1
         pprint.pprint(metric)
         print()
 
-    return cnt/len(true_list)
+    return cnt / len(true_list)
+

@@ -248,7 +248,7 @@ toolz==0.11.2
 torch==1.9.1
 torchelastic==0.2.1
 torchvision==0.8.2
-tornado==6.1
+tornado==6.3.2
 tqdm @ file:///tmp/build/80754af9/tqdm_1605303662894/work
 traitlets==5.1.1
 transformers==4.19.2
